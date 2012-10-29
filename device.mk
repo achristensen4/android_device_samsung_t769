@@ -33,41 +33,33 @@ DEVICE_PACKAGE_OVERLAYS += device/samsung/t769/overlay
 PRODUCT_AAPT_CONFIG := normal hdpi
 PRODUCT_AAPT_PREF_CONFIG := hdpi
 
-# Hardware
-PRODUCT_COPY_FILES += \
-    frameworks/native/data/etc/android.hardware.sensor.proximity.xml:system/etc/permissions/android.hardware.sensor.proximity.xml
-
 # Ramdisk
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/ramdisk/init.qcom.rc:root/init.qcom.rc \
-    $(LOCAL_PATH)/ramdisk/init.qcom.sh:root/init.qcom.sh \
-    $(LOCAL_PATH)/ramdisk/init.qcom.usb.rc:root/init.qcom.usb.rc \
-    $(LOCAL_PATH)/ramdisk/init.qcom.usb.sh:root/init.qcom.usb.sh \
-    $(LOCAL_PATH)/ramdisk/init.target.rc:root/init.target.rc \
-    $(LOCAL_PATH)/ramdisk/ueventd.rc:root/ueventd.rc \
-    $(LOCAL_PATH)/ramdisk/init.emmc.rc:root/init.emmc.rc \
-    $(LOCAL_PATH)/fstab.qcom:root/fstab.qcom \
-	$(LOCAL_PATH)/ramdisk/init.qcom.lpm_boot.sh:root/init.qcom.lpm_boot.sh \
-	$(LOCAL_PATH)/ramdisk/lpm.rc:root/lpm.rc \
-	$(LOCAL_PATH)/recovery/postrecoveryboot.sh:recovery/root/sbin/postrecoveryboot.sh
+    device/samsung/t769/ramdisk/init.qcom.rc:root/init.qcom.rc \
+    device/samsung/t769/ramdisk/init.qcom.sh:root/init.qcom.sh \
+    device/samsung/t769/ramdisk/init.qcom.usb.rc:root/init.qcom.usb.rc \
+    device/samsung/t769/ramdisk/init.qcom.usb.sh:root/init.qcom.usb.sh \
+    device/samsung/t769/ramdisk/init.target.rc:root/init.target.rc \
+    device/samsung/t769/ramdisk/ueventd.rc:root/ueventd.rc \
+    device/samsung/t769/ramdisk/init.emmc.rc:root/init.emmc.rc
 
 # BT firmware
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/firmware/bcm4330B1.hcd:system/etc/firmware/bcm4330B1.hcd
+    device/samsung/t769/firmware/bcm4330B1.hcd:system/etc/firmware/bcm4330B1.hcd
 
 # Vold
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/vold.fstab:system/etc/vold.fstab
-
-# QRNGD
-PRODUCT_PACKAGES += qrngd
+    device/samsung/t769/vold.fstab:system/etc/vold.fstab
 
 # common msm8660
 $(call inherit-product, device/samsung/msm8660-common/msm8660.mk)
 
-$(call inherit-product, frameworks/native/build/phone-xhdpi-1024-dalvik-heap.mk)
+$(call inherit-product, frameworks/base/build/phone-xhdpi-1024-dalvik-heap.mk)
 
 $(call inherit-product-if-exists, vendor/samsung/t769/t769-vendor.mk)
+
+#WIFI_BAND := 802_11_ABG
+#$(call inherit-product-if-exists, hardware/broadcom/wlan/bcmdhd/firmware/bcm4330/device-bcm.mk)
 
 # NFC
 BOARD_HAVE_NFC := true

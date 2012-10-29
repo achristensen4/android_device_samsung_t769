@@ -31,49 +31,31 @@ USE_CAMERA_STUB := true
 # inherit from the proprietary version
 -include vendor/samsung/t769/BoardConfigVendor.mk
 
-TARGET_BOOTLOADER_BOARD_NAME := MSM8660_SURF
-TARGET_BOARD_PLATFORM := msm8660
-TARGET_BOARD_PLATFORM_GPU := qcom-adreno200
-TARGET_CPU_ABI := armeabi-v7a
-TARGET_CPU_ABI2 := armeabi
-TARGET_ARCH_VARIANT := armv7-a-neon
-TARGET_ARCH_VARIANT_CPU := cortex-a9
-TARGET_ARCH_VARIANT_FPU := neon
-TARGET_CPU_SMP := true
+TARGET_BOOTLOADER_BOARD_NAME := t769
 
-TARGET_GLOBAL_CFLAGS += -mtune=cortex-a9 -mfpu=neon -mfloat-abi=softfp
-TARGET_GLOBAL_CPPFLAGS += -mtune=cortex-a9 -mfpu=neon -mfloat-abi=softfp
-
-BOARD_USE_CUSTOM_RECOVERY_FONT := "\"roboto_15x24.h\""
-TARGET_RECOVERY_INITRC := device/samsung/t769/recovery/init.rc
-BOARD_CUSTOM_GRAPHICS := ../../../device/samsung/t769/recovery/graphics.c
-BOARD_CUSTOM_RECOVERY_UI := ../../device/samsung/t769/recovery/recovery_ui.c
-BOARD_HAS_SDCARD_INTERNAL := true
-BOARD_HAS_INTERNAL_PARTITIONS := true
-
-TARGET_OTA_ASSERT_DEVICE := SGH-T769,T769,sgh-t769,t769,Blaze4G,Blaze4g,blaze4G,blaze4g
+TARGET_OTA_ASSERT_DEVICE := SGH-T769,t769,blaze4g,Blaze4g,Blaze4G,T769
 
 # Kernel
 TARGET_KERNEL_CONFIG        := cyanogenmod_t769_defconfig
 TARGET_KERNEL_SOURCE        := kernel/samsung/msm8660-common
-BOARD_KERNEL_CMDLINE        := androidboot.hardware=qcom usb_id_pin_rework=true no_console_suspend=true zcache
+BOARD_KERNEL_CMDLINE        := androidboot.hardware=qcom usb_id_pin_rework=true
 BOARD_KERNEL_BASE           := 0x40400000
 BOARD_KERNEL_PAGESIZE       := 2048
 BOARD_FORCE_RAMDISK_ADDRESS := 0x41800000
 
 # cat /proc/emmc
 #dev:        size     erasesize name
-#mmcblk0p22: 00fffc00 00000200 "recovery"
-#mmcblk0p8: 01000000 00000200 "boot"
-#mmcblk0p24: 5ffffc00 00000200 "system"
-#mmcblk0p26: 13fffe00 00000200 "cache"
-#mmcblk0p25: 9ffffe00 00000200 "userdata"
+#mmcblk0p22: 00A00000 00000200 "recovery"
+#mmcblk0p8: 00A00000 00000200 "boot"
+#mmcblk0p24: 22535000 00000200 "system"
+#mmcblk0p26: 12E00000 00000200 "cache"
+#mmcblk0p25: 48A00000 00000200 "userdata"
 
 TARGET_USERIMAGES_USE_EXT4 := true
-BOARD_BOOTIMAGE_PARTITION_SIZE := 16777216
-BOARD_RECOVERYIMAGE_PARTITION_SIZE := 16776192
-BOARD_SYSTEMIMAGE_PARTITION_SIZE := 838860800
-BOARD_USERDATAIMAGE_PARTITION_SIZE := 20044333056
+BOARD_BOOTIMAGE_PARTITION_SIZE := 10485760
+BOARD_RECOVERYIMAGE_PARTITION_SIZE := 10485760
+BOARD_SYSTEMIMAGE_PARTITION_SIZE := 575885312
+BOARD_USERDATAIMAGE_PARTITION_SIZE := 1218445312
 BOARD_FLASH_BLOCK_SIZE := 131072
 
 BOARD_SDCARD_DEVICE_PRIMARY := /dev/block/mmcblk1p1
@@ -83,19 +65,26 @@ BOARD_USES_MMCUTILS := true
 BOARD_HAS_NO_MISC_PARTITION := true
 BOARD_HAS_NO_SELECT_BUTTON := true
 
-USE_OPENGL_RENDERER :=true
-
 # Suppress the WIPE command since it can brick our EMMC
 BOARD_SUPPRESS_EMMC_WIPE := true
+
+# FIXME: Overlay has an issue when playing video in landscape mode
+COMMON_GLOBAL_CFLAGS += -DQCOM_ROTATOR_KERNEL_FORMATS
 
 # Workaround for glitches while cropping bypass layers
 TARGET_NO_BYPASS_CROPPING := true
 
 # MTP
-#BOARD_MTP_DEVICE := "/dev/mtp_usb"
+BOARD_MTP_DEVICE := "/dev/mtp_usb"
+
+# Audio
+TARGET_USES_QCOM_LPA := true
+COMMON_GLOBAL_CFLAGS += -DWITH_QCOM_LPA
+BOARD_HAS_SAMSUNG_VOLUME_BUG := true
 
 # Disable initlogo, Samsungs framebuffer is weird
 TARGET_NO_INITLOGO := true
 
 # Preload the boot animation to avoid jerkiness
 TARGET_BOOTANIMATION_PRELOAD := true
+
